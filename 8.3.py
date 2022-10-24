@@ -2,27 +2,53 @@
 # пароля и выводит свой результат в оценочной шкале от 1 до 5.
 
 
-import string
+lower_case = 0
+upper_case = 0
+special = 0
+digits = 0
+password = input('Введите пароль на проверку: ')
 
-password = input('Введите пароль: ')
+if password == 'qwerty' or password == 'admin' or password == '':
+    print('Оценка сложности пароля -', 1)
+    exit()
 
-upper_case = any([1 if i in string.ascii_uppercase else 0 for i in password])
-lower_case = any([1 if i in string.ascii_lowercase else 0 for i in password])
-special = any([1 if i in string.punctuation else 0 for i in password])
-digits = any([1 if i in string.digits else 0 for i in password])
-length = len(password)
+for i in range(len(password)):
+    if str(password[i]).islower():
+        lower_case += 1
+    elif str(password[i]).isupper():
+        upper_case += 1
+    elif str(password[i]).isnumeric():
+        digits += 1
+    else:
+        special += 1
 
-if length >= 8:
-    length = True
-else:
-    length = False
+if lower_case == len(password) or upper_case == len(password) or digits == len(password) or special == len(
+        password):
+    print('Оценка сложности пароля -', 2)
 
-characters =[upper_case, lower_case, special, digits, length]
+elif lower_case > 0 and digits > 0 and upper_case == 0 and special == 0:
+    print('Оценка безопастности пароля -', 3)
+elif lower_case > 0 and upper_case > 0 and digits == 0 and special == 0:
+    print('Оценка сложности пароля -', 3)
+elif lower_case > 0 and special > 0 and digits == 0 and upper_case == 0:
+    print('Оценка сложности пароля -', 3)
+elif upper_case > 0 and special > 0 and digits == 0 and lower_case == 0:
+    print('Оценка сложности пароля -', 3)
+elif upper_case > 0 and digits > 0 and special == 0 and lower_case == 0:
+    print('Оценка сложности пароля -', 3)
+elif special > 0 and digits > 0 and upper_case == 0 and lower_case == 0:
+    print('Оценка сложности пароля -', 3)
 
-score = 0
+elif lower_case > 0 and digits > 0 and upper_case > 0 and special == 0:
+    print('Оценка сложности пароля -', 4)
+elif special > 0 and digits > 0 and upper_case > 0 and lower_case == 0:
+    print('Оценка сложности пароля -', 4)
+elif lower_case > 0 and digits > 0 and special > 0 and upper_case == 0:
+    print('Оценка сложности пароля -', 4)
+elif lower_case > 0 and special > 0 and upper_case > 0 and digits == 0:
+    print('Оценка сложности пароля -', 4)
 
-for i in range(len(characters)):
-    if characters[i]:
-        score += 1
+elif lower_case > 0 and digits > 0 and upper_case > 0 and special > 0 and len(password) > 8:
+    print('Оценка сложности пароля -', 5)
 
-print('Надежность пароля: %s из 5' % score)
+
